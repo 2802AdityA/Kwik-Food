@@ -25,6 +25,6 @@ function Student() {
 			</CartProvider>
 		</div>
 	);
-}
+};
 
 export default Student;

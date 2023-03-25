@@ -5,7 +5,7 @@ import Student from "./Student";
 import { gql, useQuery } from "@apollo/client";
 
 const check_canteen_user = gql`
-query canteenUser($email: String) {
+query canteenUser($email: citext) {
 	canteen_email(where: {owner_email: {_eq: $email}}){
 	  owner_email
 	}

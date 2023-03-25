@@ -6,7 +6,7 @@ import EditRow from "../components/Canteen/EditRow";
 import "../styles/Canteen/modifymenu.css";
 
 const GET_MENU = gql`
-query showMenu($email: String!){
+query showMenu($email: citext!){
 	menu(where: {email: {_eq: $email}}){
 	  id
 	  name

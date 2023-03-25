@@ -14,9 +14,11 @@ const GET_MENU = gql`
 	}
 `;
 
+
 function Student() {
 	const { error, data } = useQuery(GET_MENU);
 	const menuList = data?.menu;
+
 	return (
 		<div>
 			<CartProvider>
@@ -25,6 +27,6 @@ function Student() {
 			</CartProvider>
 		</div>
 	);
-}
+};
 
 export default Student;

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { gql, useQuery, useMutation } from "@apollo/client";
+
 import ReadRow from "../components/Canteen/ReadRow";
 import EditRow from "../components/Canteen/EditRow";
+
 
 const GET_MENU = gql`
 	query GetMenu {
@@ -53,6 +55,7 @@ const DELETE_MENU_ITEM = gql`
 `;
 
 const Canteen = () => {
+
 
 	const {error, data } = useQuery(GET_MENU);
 
@@ -124,6 +127,7 @@ const Canteen = () => {
 	// 	}
 	// 	refreshPage();
 	// };
+
 
 	// update menu items
 	const [updateItem] = useMutation(UPDATE_MENU);
@@ -209,6 +213,7 @@ const Canteen = () => {
 			{!data ? (
 				"no data"
 			) : (
+
 				<>
 					<form onSubmit={handleEditMenuSubmit}>
 						<table className="table">
@@ -225,6 +230,7 @@ const Canteen = () => {
 									? menuList?.map((itemDetails) => {
 										return (
 											<>
+
 												{editMenuId === itemDetails.id ? (
 													<EditRow
 														editMenuData={editMenuData}
@@ -238,6 +244,7 @@ const Canteen = () => {
 														handleDeleteClick={handleDeleteClick}
 													/>
 												)}
+
 											</>
 										);
 									})
@@ -252,6 +259,7 @@ const Canteen = () => {
 						<button type="submit">Add Menu</button>
 					</form>
 				</>
+
 			)}
 		</div>
 	);

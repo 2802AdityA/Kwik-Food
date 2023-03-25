@@ -4,7 +4,6 @@ import { gql, useQuery, useMutation } from "@apollo/client";
 import ReadRow from "../components/Canteen/ReadRow";
 import EditRow from "../components/Canteen/EditRow";
 
-
 const GET_MENU = gql`
 	query GetMenu {
 		menu {
@@ -55,7 +54,6 @@ const DELETE_MENU_ITEM = gql`
 `;
 
 const Canteen = () => {
-
 
 	const {error, data } = useQuery(GET_MENU);
 

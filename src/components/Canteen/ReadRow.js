@@ -1,5 +1,4 @@
 import React from "react";
-import "../../styles/Canteen/modifymenu.css"
 
 const ReadRow = ({ itemDetails, handleEditClick, handleDeleteClick }) => {
 	return (
@@ -13,14 +12,14 @@ const ReadRow = ({ itemDetails, handleEditClick, handleDeleteClick }) => {
 					type="button"
 					onClick={(e) => handleEditClick(e, itemDetails)}
 				>
-					<i className="fa-solid fa-pen"></i>
+					Edit
 				</button>
 				<button
 					className="btn"
 					type="button"
 					onClick={() => handleDeleteClick(itemDetails.id)}
 				>
-					<i className="fa-solid fa-trash-can"></i>
+					Delete
 				</button>
 			</td>
 		</tr>

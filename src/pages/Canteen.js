@@ -1,21 +1,17 @@
-import { useOutletContext } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import ReadRow from "../components/Canteen/ReadRow";
 import EditRow from "../components/Canteen/EditRow";
-import "../styles/Canteen/modifymenu.css";
 
 const GET_MENU = gql`
-query showMenu($email: String!){
-	menu(where: {email: {_eq: $email}}){
-	  id
-	  name
-	  price
-	  quantity
-	  email
+	query GetMenu {
+		menu {
+			id
+			name
+			price
+			quantity
+		}
 	}
-  }
-
 `;
 
 const INSERT_MULTIPLE_ITEMS_MUTATION = gql`
@@ -57,44 +53,38 @@ const DELETE_MENU_ITEM = gql`
 `;
 
 const Canteen = () => {
-	const { user } = useOutletContext();
-	const [email, setEmail] = useState("");
-	useEffect(() => {
-		setEmail(user.email); // eslint-disable-next-line
-	}, []);
-	const { data, error } = useQuery(GET_MENU, { variables: { email } });
 
-	// console.log(data ? data : error);
+	const {error, data } = useQuery(GET_MENU);
 
 	const menuList = data?.menu;
 	const [menu, setMenu] = useState(menuList);
+
 	function refreshPage() {
 		window.location.reload(false);
 	}
 
-	// add new items to menu
+	// // add new items to menu
 	const [insertItem] = useMutation(INSERT_MULTIPLE_ITEMS_MUTATION);
 
 	const [name, setName] = useState("");
 	const [price, setPrice] = useState("");
 	const [quantity, setQuantity] = useState("");
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = async (e)=>{
 		e.preventDefault();
 
-		try {
+		try{
 			await insertItem({
 				variables: {
-					menu: {
+					menu:{
 						name: name,
 						price: price,
-						quantity: quantity,
-						email: email
+						quantity: quantity
 					}
 				}
 			})
 		}
-		catch (err) {
+		catch(err){
 			console.log(err);
 		}
 		refreshPage()
@@ -173,7 +163,7 @@ const Canteen = () => {
 			setMenu(newMenu);
 			setEditMenuId(null);
 		} catch (err) {
-			console.log("no");
+			console.log(err);
 		}
 		refreshPage();
 	};
@@ -216,39 +206,6 @@ const Canteen = () => {
 
 	return (
 		<div>
-			<button className="add-menu" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-				<i className="fa-solid fa-plus"></i>Add Menu
-			</button>
-			<div className="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-				<div className="modal-dialog modal-dialog-centered">
-					<div className="modal-content">
-						<div className="modal-header">
-							<h5 className="modal-title" id="staticBackdropLabel">ADD MENU</h5>
-							<button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div className="modal-body">
-							<form onSubmit={handleSubmit}>
-								<div className="mb-3">
-									<label className="col-form-label">Item Name:</label>
-									<input className="form-control" type="text" placeholder="Item Name" value={name} onChange={(e) => setName(e.target.value)}></input>
-								</div>
-								<div className="mb-3">
-									<label className="col-form-label">Price of Item:</label>`
-									<input className="form-control" type="text" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)}></input>
-								</div>
-								<div className="mb-3">
-									<label className="col-form-label">Quantity Available:</label>
-									<input className="form-control" type="text" placeholder="Quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)}></input>
-								</div>
-								<div className="modal-footer">
-									<button type="submit" className=" btn btn-outline-primary">Add Menu</button>
-								</div>
-							</form>
-						</div>
-
-					</div>
-				</div>
-			</div>
 			{!data ? (
 				"no data"
 			) : (
@@ -256,8 +213,8 @@ const Canteen = () => {
 					<form onSubmit={handleEditMenuSubmit}>
 						<table className="table">
 							<thead>
-								<tr className="row table-secondary">
-									<th className="col">Item Name</th>
+								<tr className="row">
+									<th className="col">Name</th>
 									<th className="col">Price</th>
 									<th className="col">Quantity</th>
 									<th className="col">Actions</th>
@@ -287,6 +244,12 @@ const Canteen = () => {
 									: "Something went wrong, Check back after sometime "}
 							</tbody>
 						</table>
+					</form>
+					<form onSubmit={handleSubmit}>
+						<input type="text" placeholder="name" value={name} onChange={(e)=>setName(e.target.value)}></input>
+						<input type="text" placeholder="price" value={price} onChange={(e)=>setPrice(e.target.value)}></input>
+						<input type="text" placeholder="quantity" value={quantity} onChange={(e)=>setQuantity(e.target.value)}></input>
+						<button type="submit">Add Menu</button>
 					</form>
 				</>
 			)}

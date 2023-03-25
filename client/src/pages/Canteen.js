@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { gql, useQuery, useMutation } from "@apollo/client";
-import ReadRow from "../components/ReadRow";
-import EditRow from "../components/EditRow";
+
+import ReadRow from "../components/Canteen/ReadRow";
+import EditRow from "../components/Canteen/EditRow";
+
 
 const GET_MENU = gql`
 	query GetMenu {
@@ -53,51 +55,79 @@ const DELETE_MENU_ITEM = gql`
 `;
 
 const Canteen = () => {
-	const { loading, error, data } = useQuery(GET_MENU);
+
+
+	const {error, data } = useQuery(GET_MENU);
+
 	const menuList = data?.menu;
 	const [menu, setMenu] = useState(menuList);
-
-	// add new items to menu
-	const [insertItem] = useMutation(INSERT_MULTIPLE_ITEMS_MUTATION);
-
-	const [addMenuData, setAddMenuData] = useState({
-		name: "",
-		price: "",
-		quantity: "",
-	});
-
-	const handleAddMenuChange = (event) => {
-		event.preventDefault();
-		const fieldName = event.target.getAttribute("name");
-		const fieldValue = event.target.value;
-		const newMenuData = { ...addMenuData };
-		newMenuData[fieldName] = fieldValue;
-		setAddMenuData(newMenuData);
-	};
 
 	function refreshPage() {
 		window.location.reload(false);
 	}
 
-	const handleAddMenuSubmit = async (event) => {
-		event.preventDefault();
-		try {
-			const newDetail = await insertItem({
+	// // add new items to menu
+	const [insertItem] = useMutation(INSERT_MULTIPLE_ITEMS_MUTATION);
+
+	const [name, setName] = useState("");
+	const [price, setPrice] = useState("");
+	const [quantity, setQuantity] = useState("");
+
+	const handleSubmit = async (e)=>{
+		e.preventDefault();
+
+		try{
+			await insertItem({
 				variables: {
-					menu: {
-						name: addMenuData.name,
-						price: addMenuData.price,
-						quantity: addMenuData.quantity,
-					},
-				},
-			});
-			const newDetails = [...menu, newDetail];
-			setMenu(newDetails);
-		} catch (err) {
+					menu:{
+						name: name,
+						price: price,
+						quantity: quantity
+					}
+				}
+			})
+		}
+		catch(err){
 			console.log(err);
 		}
-		refreshPage();
-	};
+		refreshPage()
+	}
+
+	// const [addMenuData, setAddMenuData] = useState({
+	// 	name: "",
+	// 	price: "",
+	// 	quantity: "",
+	// });
+
+	// const handleAddMenuChange = (event) => {
+	// 	event.preventDefault();
+	// 	const fieldName = event.target.getAttribute("name");
+	// 	const fieldValue = event.target.value;
+	// 	const newMenuData = { ...addMenuData };
+	// 	newMenuData[fieldName] = fieldValue;
+	// 	setAddMenuData(newMenuData);
+	// };
+
+	// const handleAddMenuSubmit = async (event) => {
+	// 	event.preventDefault();
+	// 	try {
+	// 		const newDetail = await insertItem({
+	// 			variables: {
+	// 				menu: {
+	// 					name: addMenuData.name,
+	// 					price: addMenuData.price,
+	// 					quantity: addMenuData.quantity,
+	// 				},
+	// 			},
+	// 		});
+	// 		const newDetails = [...menu, newDetail];
+	// 		setMenu(newDetails);
+	// 	} catch (err) {
+	// 		console.log(err);
+	// 	}
+	// 	refreshPage();
+	// };
+
 
 	// update menu items
 	const [updateItem] = useMutation(UPDATE_MENU);
@@ -183,21 +213,24 @@ const Canteen = () => {
 			{!data ? (
 				"no data"
 			) : (
-				<form onSubmit={handleEditMenuSubmit}>
-					<table className="table">
-						<thead>
-							<tr className="row">
-								<th className="col">Name</th>
-								<th className="col">Price</th>
-								<th className="col">Quantity</th>
-								<th className="col">Actions</th>
-							</tr>
-						</thead>
-						<tbody>
-							{!error
-								? menuList?.map((itemDetails) => {
+
+				<>
+					<form onSubmit={handleEditMenuSubmit}>
+						<table className="table">
+							<thead>
+								<tr className="row">
+									<th className="col">Name</th>
+									<th className="col">Price</th>
+									<th className="col">Quantity</th>
+									<th className="col">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								{!error
+									? menuList?.map((itemDetails) => {
 										return (
-											<div>
+											<>
+
 												{editMenuId === itemDetails.id ? (
 													<EditRow
 														editMenuData={editMenuData}
@@ -211,53 +244,22 @@ const Canteen = () => {
 														handleDeleteClick={handleDeleteClick}
 													/>
 												)}
-											</div>
+
+											</>
 										);
-								  })
-								: "Something went wrong, Check back after sometime "}
-						</tbody>
-						<tfoot>
-							<tr className="row">
-								<div>
-									<form onSubmit={handleAddMenuSubmit}>
-										<td className="col">
-											<input
-												className="form-control"
-												type="text"
-												name="name"
-												required="required"
-												onChange={handleAddMenuChange}
-											/>
-										</td>
-										<td className="col">
-											<input
-												className="form-control"
-												type="text"
-												name="price"
-												required="required"
-												onChange={handleAddMenuChange}
-											/>
-										</td>
-										<td className="col">
-											<input
-												className="form-control"
-												type="text"
-												name="quantity"
-												required="required"
-												onChange={handleAddMenuChange}
-											/>
-										</td>
-										<td className="col">
-											<button className="btn" type="submit">
-												Add
-											</button>
-										</td>
-									</form>
-								</div>
-							</tr>
-						</tfoot>
-					</table>
-				</form>
+									})
+									: "Something went wrong, Check back after sometime "}
+							</tbody>
+						</table>
+					</form>
+					<form onSubmit={handleSubmit}>
+						<input type="text" placeholder="name" value={name} onChange={(e)=>setName(e.target.value)}></input>
+						<input type="text" placeholder="price" value={price} onChange={(e)=>setPrice(e.target.value)}></input>
+						<input type="text" placeholder="quantity" value={quantity} onChange={(e)=>setQuantity(e.target.value)}></input>
+						<button type="submit">Add Menu</button>
+					</form>
+				</>
+
 			)}
 		</div>
 	);

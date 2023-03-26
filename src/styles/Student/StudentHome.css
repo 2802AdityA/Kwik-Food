@@ -1,4 +1,4 @@
-.card {
+.menu-card {
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -13,11 +13,10 @@
   background-clip: border-box;
   border: 0 solid #8f8383;
   border-radius: 0.25rem;
-  padding-left: 20px;
-  padding-right: 20px;
   margin-bottom: 50px;
   margin-top: 20px;
   border-radius: 10px;
+  box-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
 .card-body {
   width: 90%;
@@ -27,13 +26,17 @@
 }
 /* CART */
 
+.cart{
+  margin-top: -30px;
+}
+
 .item-btn-cart {
   width: 30px;
   height: 30px;
   margin: 5px;
   border-radius: 5px;
   font-size: 10px;
-  background-color: #2353eb;
+  background-color:#ddaa00;
   padding-right: 2px;
   padding-left: 2px;
 }
@@ -43,10 +46,10 @@
 }
 
 .item-btn-cart:hover .sign {
-  color: #2353eb;
+  color: #173f4e;
 }
 .item-btn-cart:focus .sign {
-  color: #2353eb;
+  color: #173f4e;
 }
 
 .item-btn-cart i {
@@ -69,7 +72,7 @@
 }
 
 .trash-btn i {
-  color: rgb(219, 72, 72);
+  color: #770e18;
   font-weight: 900;
   margin-bottom: 2px;
 }
@@ -108,28 +111,48 @@
   border-radius: 10px;
 }
 
-.banner .content {
-  min-width: 270px;
-  width: 100%;
-  margin-top: 30px;
-  padding-left: 40px;
-}
-
-.banner img {
-  width: 100vw;
+.banner .content img {
+  height: 200px;
+  width: 650px;
+  clip-path:polygon(0% 0%, 100% 0%, 92% 100%, 0% 100%);
   object-fit: cover;
-  clip-path: polygon(13% 0, 100% 0%, 100% 100%, 0% 100%);
   border-radius: 10px;
+  margin: 0;
 }
 
-.banner h1 {
+.banner .food {
+  width: 80vw;
+  clip-path: polygon(13% 0, 100% 0%, 100% 100%, 0% 100%);
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 0;
+  margin-left: -90px;
+}
+
+h1 {
   font-size: 40px;
-  color: rgb(24, 24, 74);
+  color: #a65111;
+  text-align: center;
   font-weight: 700;
+  margin-top: 20px;
+  margin-bottom: -20px;
+}
+
+.cart h1{
+  color: #173f4e;
+}
+
+.fa-cart-shopping{
+  color: #173f4e;
 }
 .call-to-action {
-  font-weight: 500;
+  font-weight: 700;
   font-size: 25px;
+  padding-top: 15px;
+  padding-bottom: 30px;
+  text-align: center;
+  color: #173f4e;
+  margin-top: -20px;
 }
 .item-btn {
   width: 40px;
@@ -138,7 +161,7 @@
   border-radius: 5px;
   padding: 6px;
   font-size: 10px;
-  background-color: #2353eb;
+  background-color: #ddaa00;
 }
 .item-btn i {
   color: white;
@@ -151,10 +174,10 @@
 }
 
 .item-btn:hover .plus {
-  color: #2353eb;
+  color: #173f4e;
 }
 .item-btn:focus .plus {
-  color: #2353eb;
+  color:#173f4e;
 }
 
 /* .app-search {
@@ -173,8 +196,9 @@
 @media screen and (max-width: 600px) {
   .banner {
     flex-direction: column;
+    display: none;
   }
-  .banner img {
+  .banner .content img {
     height: 50vh;
     clip-path: initial;
     width: inherit;
@@ -191,7 +215,7 @@
   .Student_title__cko1K {
     text-align: center;
   }
-  .card {
+  .menu-card {
     margin-top: 10px;
   }
   .card-body.cart-body {

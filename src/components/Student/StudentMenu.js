@@ -1,9 +1,10 @@
 import React from "react";
 import { useCart } from "react-use-cart";
 import "../../styles/Student/StudentHome.css";
+
 const StudentMenu = ({ itemDetails }) => {
 	const { addItem, getItem } = useCart();
-
+	// comment
 	return (
 		<tr className="row">
 			<td className="col">{itemDetails.name}</td>
@@ -15,11 +16,9 @@ const StudentMenu = ({ itemDetails }) => {
 					type="button"
 					onClick={() => {
 						const item = getItem(itemDetails.id);
-
-						item
-							? item.quantity < itemDetails.quantity
-								? addItem(itemDetails)
-								: console.log("Exceeded")
+						item ? item.quantity < itemDetails.quantity
+							? addItem(itemDetails)
+							: console.log("Exceeded")
 							: addItem(itemDetails);
 					}}
 				>

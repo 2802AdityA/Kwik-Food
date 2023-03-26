@@ -1,7 +1,7 @@
 .title {
-  font-size: 1.875rem;
+  font-size: 1.975rem;
   line-height: 2.25rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .welcome-text {
@@ -27,4 +27,5 @@
 .totalprice{
   font-size: 25px;
   font-weight: 700;
+  color:#173f4e
 }

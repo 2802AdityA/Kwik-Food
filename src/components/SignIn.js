@@ -1,5 +1,4 @@
 import "../styles/components/SignIn.css";
-import logo from "../styles/logo.jpg"
 import { useSignInEmailPassword } from "@nhost/react";
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
@@ -10,7 +9,6 @@ import Spinner from "./Spinner";
 const SignIn = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [canteenEmail, setcanteenEmail] = useState("");
 
 	const {
 		signInEmailPassword,
@@ -35,9 +33,9 @@ const SignIn = () => {
 	const disableForm = isLoading || needsEmailVerification;
 	return (
 		<div className="container">
-			<div className="card">
+			<div className="signin-card">
 				<div className="logo-wrapper">
-					<img src={logo} alt="logo" />
+					<img src={process.env.PUBLIC_URL + "logo-form.png"} alt="logo" />
 				</div>
 
 				{needsEmailVerification ? (

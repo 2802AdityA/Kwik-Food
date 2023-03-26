@@ -1,5 +1,8 @@
 import styles from "../styles/components/Layout.module.css";
 
+// import logo from "../assets/KwikFoodLogo.png";
+
+import { useState, useEffect } from "react";
 import { useSignOut, useUserId } from "@nhost/react";
 import { gql, useQuery } from "@apollo/client";
 import { Fragment } from "react";
@@ -25,6 +28,13 @@ const GET_USER_QUERY = gql`
 		}
 	}
 `;
+const check_canteen_user = gql`
+query canteenUser($email: citext) {
+	canteen_email(where: {owner_email: {_eq: $email}}){
+	  owner_email
+	}
+  }  
+`
 const Layout = () => {
 	const id = useUserId();
 	const { signOut } = useSignOut();
@@ -33,6 +43,19 @@ const Layout = () => {
 		skip: !id,
 	});
 	const user = data?.user;
+	const { data: canteen_data, loading: canteen_loading, error: canteen_error } = useQuery(check_canteen_user, { variables: { email: user?.email } });
+	if (canteen_loading) return <p>Loading...</p>
+	if (canteen_error) return <p>Error</p>
+	const check = () => {
+		if (canteen_data.canteen_email.length === 0) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
+
 	const menuItems = [
 		{
 			label: "Dashboard",
@@ -56,8 +79,21 @@ const Layout = () => {
 			<header className={styles.header}>
 				<div className={styles["header-container"]}>
 					<Link to="/">
-						<img src={process.env.PUBLIC_URL + "logo.svg"} alt="logo" />
+						<img className={styles.logo} src={process.env.PUBLIC_URL + "logo-1.png"} alt="logo" />
 					</Link>
+
+					{
+						check() ? (<div className={styles.buttons}>
+							<Link to="/canteen" className={styles.linkitem}>Menu</Link>
+							<Link to="/studentOrders" className={styles.linkitem}>Orders</Link>
+						</div>) : (
+							<div className={styles.buttons}>
+								<Link to="/canteens" className={styles.linkitem}>Canteens</Link>
+								<Link to="/orders" className={styles.linkitem}>Orders</Link>
+							</div>
+						)
+					}
+
 
 					<Menu as="div" className={styles.menu}>
 						<Menu.Button className={styles["menu-button"]}>
@@ -116,7 +152,7 @@ const Layout = () => {
 					) : null}
 				</div>
 			</main>
-		</div>
+		</div >
 	);
 };
 

@@ -1,5 +1,6 @@
 import "../styles/components/SignUp.css";
 
+
 import { useSignUpEmailPassword } from "@nhost/react";
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
@@ -42,9 +43,9 @@ const SignUp = () => {
 
 	return (
 		<div className="container">
-			<div className="card">
+			<div className=" sign-up-card">
 				<div className="logo-wrapper">
-					<img src={process.env.PUBLIC_URL + "logo.svg"} alt="logo" />
+					<img src={process.env.PUBLIC_URL + "logo-form.png"} alt="logo" />
 				</div>
 
 				{needsEmailVerification ? (

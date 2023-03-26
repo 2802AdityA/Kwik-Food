@@ -27,8 +27,8 @@
   top: 0px;
   left: 0px;
   right: 0px;
-  height: 60px;
-  background-color: rgb(255, 255, 255);
+  height: 80px;
+  background-color: #173f4e;
   box-shadow: 0 0 #0000, 0 0 #0000, 0 1px 3px 0 rgb(0 0 0 / 0.1),
     0 1px 2px -1px rgb(0 0 0 / 0.1);
   z-index: 10;
@@ -46,9 +46,38 @@
   justify-content: space-between;
 }
 
+.logo {
+  margin-top: -2%;
+  height:65%
+ 
+}
+
 .logo-wrapper {
   position: relative;
   width: 6rem;
+}
+
+.buttons{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -750px;
+  padding-bottom: 12px;
+  margin-top: 0px;
+}
+
+.linkitem{
+  color: white;
+  margin-right: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.linkitem:hover{
+  color: #542424;
 }
 
 .menu {
